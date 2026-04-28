@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --accent-primary: #a78bfa; /* Soft Purple */
+  --accent-secondary: #f472b6; /* Soft Pink */
+  --bg-deep: #141517; /* Very dim zinc base */
+  --bg-surface: #1e1f23; /* Elevated dim surface */
+  --text-main: #f4f4f5; 
+  --text-muted: #a1a1aa; 
+  --border-subtle: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* Glass properties for dim aesthetic */
+.glass {
+  background: rgba(30, 31, 35, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.glass-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 28px; /* High aesthetic curving */
+}
+
+.glass-card:hover {
+  transform: translateY(-4px) scale(1.005);
+  border: 1px solid rgba(167, 139, 250, 0.25);
+  box-shadow: 0 10px 40px -10px rgba(167, 139, 250, 0.15);
+}
+
+.bg-mesh {
+  background: radial-gradient(120% 100% at 50% 0%, #201e2b 0%, var(--bg-deep) 60%);
+}
+
+.text-hero {
+  @apply text-5xl lg:text-7xl font-extrabold tracking-tight text-white;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 139, 250, 0.4);
+}
