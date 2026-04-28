@@ -109,8 +109,9 @@ export default function DashboardPage() {
     const left = (window.innerWidth / 2) - (width / 2);
     const top = (window.innerHeight / 2) - (height / 2);
     
+    const authBase = API_URL.replace('/api', '');
     const popup = window.open(
-      `http://localhost:3001/api/auth/google?user_id=${user.id}`,
+      `${authBase}/api/auth/google?user_id=${user.id}`,
       'Neural Identity Verification',
       `width=${width},height=${height},top=${top},left=${left}`
     );

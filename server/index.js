@@ -18,8 +18,10 @@ import { makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaile
 dotenv.config({ path: '../.env' });
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const storagePath = process.env.STORAGE_PATH || __dirname;
 const app = express();
 const port = process.env.PORT || 3001;
+const publicUrl = process.env.PUBLIC_URL || `http://localhost:${port}`;
 
 // Google OAuth Setup
 const oauth2Client = new google.auth.OAuth2(
@@ -28,9 +30,9 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_REDIRECT_URI
 );
 
-// Setup file storage
-const uploadsDir = join(__dirname, 'uploads');
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir);
+// Setup file storage in persistent path
+const uploadsDir = join(storagePath, 'uploads');
+if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadsDir),
@@ -91,7 +93,8 @@ let waSock = null;
 
 async function connectToWhatsApp() {
   try {
-    const { state, saveCreds } = await useMultiFileAuthState('./aura-baileys-auth');
+    const authPath = join(storagePath, 'aura-baileys-auth');
+    const { state, saveCreds } = await useMultiFileAuthState(authPath);
     const { version } = await fetchLatestBaileysVersion();
     
     waSock = makeWASocket({
@@ -167,7 +170,7 @@ async function connectToWhatsApp() {
                       fs.writeFileSync(savePath, buffer);
                       
                       const fileId = uuid();
-                      const fileUrl = `http://localhost:${process.env.PORT || 3001}/uploads/${uniqueFileName}`;
+                      const fileUrl = `${publicUrl}/uploads/${uniqueFileName}`;
                       
                       // For simple Vault integration, if a folder doesn't match UUID, we place it in root with a tag or just null folder_id.
                       // To make it show in UI, we just insert it. The frontend categorizes by folder_id, or it shows in "All Files".
@@ -494,7 +497,7 @@ app.get('/api/files', async (req, res) => {
 app.post('/api/files', upload.single('file'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
   const id = uuid();
-  const file_url = `http://localhost:${port}/uploads/${req.file.filename}`;
+  const file_url = `${publicUrl}/uploads/${req.file.filename}`;
   // Only capture folder_id if you want to support it, it is optionally passed in body
   const folder_id = req.body.folder_id || null;
   await run('INSERT INTO files (id, filename, file_url, file_size, mime_type, folder_id, user_id) VALUES (?, ?, ?, ?, ?, ?, ?)', [id, req.file.originalname, file_url, req.file.size, req.file.mimetype, folder_id, req.userId]);

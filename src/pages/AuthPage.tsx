@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Brain, Mail, Lock, User, ArrowRight, Loader2, Sparkles } from 'lucide-react';
+import { API_URL } from '../lib/api';
 
 interface AuthPageProps {
   onAuth: (user: any) => void;
@@ -25,7 +26,7 @@ export default function AuthPage({ onAuth }: AuthPageProps) {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/signup';
       const body = isLogin ? { email, password } : { email, password, fullName };
       
-      const res = await fetch(`http://localhost:3001${endpoint}`, {
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),

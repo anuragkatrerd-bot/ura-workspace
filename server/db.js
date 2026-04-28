@@ -3,7 +3,8 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const dbPath = join(__dirname, 'workspace.db');
+const storagePath = process.env.STORAGE_PATH || __dirname;
+const dbPath = join(storagePath, 'workspace.db');
 
 const db = new sqlite3.Database(dbPath);
 
