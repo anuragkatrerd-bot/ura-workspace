@@ -30,8 +30,7 @@ Aura doesn’t just read your email—it natively replies on your behalf.
 *   **"Auto-Generate AI Reply" Engine:** When you open an email in the GUI, Aura can autonomously generate a structured, professional reply draft based on context. Hitting **Deploy Message** seamlessly constructs an RFC-2822 standard email—including perfect `In-Reply-To` Thread tracing—and fires it straight back through Google API servers. 
 
 ### 3. Asynchronous Background Automation
-A continuous `setInterval` autonomic loop runs relentlessly on the Node Engine.
-It polls the SQLite task database for pending WhatsApp operations and resolves them entirely behind the scenes, injecting massive context loops (recent emails, notes, vault data) to provide absolute intelligence superiority to the AI agent executing the task.
+Aura polls the SQLite task database for pending WhatsApp operations and resolves them entirely behind the scenes, injecting massive context loops (recent emails, notes, vault data) to provide absolute intelligence superiority to the AI agent executing the task.
 
 ### 4. Dynamic Web Ecosystem
 *   **The Nexus (Dashboard):** Provides a comprehensive readout of active connections, high-priority email signals, pending horizon alarms, and real-time execution outputs.
